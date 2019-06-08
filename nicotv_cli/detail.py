@@ -48,6 +48,7 @@ def get_video_detail(detail_url):
         return video_detail
     except KeyboardInterrupt:
         print('Interrupted')
+        exit(0)
     except Exception:
         return video_detail
 

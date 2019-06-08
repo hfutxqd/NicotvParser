@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import requests
 import scrapy
 import re
@@ -43,7 +46,9 @@ def get_video_detail(detail_url):
         # print(script_text)
         video_detail['video_url'] = re.findall(r'url: *\"(\S+?)\"', script_text)[0]
         return video_detail
-    except:
+    except KeyboardInterrupt:
+        print('Interrupted')
+    except Exception:
         return video_detail
 
 

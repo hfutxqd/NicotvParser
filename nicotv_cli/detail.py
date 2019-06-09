@@ -53,6 +53,19 @@ def get_video_detail(detail_url):
         return video_detail
 
 
+def get_video_channels(url):
+    rsp = requests.get(url)
+    response = HtmlResponse(body=rsp.content, url=rsp.url)
+    channels = response.xpath('//div[contains(@class, "tab-content")]//ul[contains(@class, "ff-playurl")]')
+    video_channels = []
+    for channel in channels:
+        video_urls = channel.xpath('./li/a/@href').extract()
+        for i in range(0, len(video_urls)):
+            video_urls[i] = response.urljoin(video_urls[i])
+        video_channels.append(video_urls)
+    return video_channels
+
+
 def get_video_urls(url):
     rsp = requests.get(url)
     response = HtmlResponse(body=rsp.content, url=rsp.url)
@@ -60,8 +73,3 @@ def get_video_urls(url):
     for i in range(0, len(video_urls)):
         video_urls[i] = response.urljoin(video_urls[i])
     return video_urls
-
-
-# urls = get_video_urls('http://www.nicotv.me/video/play/53294-1-1.html')
-# for url in urls:
-#     print(get_video_detail(url))
